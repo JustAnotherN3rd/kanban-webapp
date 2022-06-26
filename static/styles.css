@@ -42,3 +42,16 @@ body {
     background-color: black;
     color: antiquewhite;
 }
+
+card {
+    background-color: black;
+    color: antiquewhite;
+}
+
+.input-dark {
+    background-color: black;
+    color:antiquewhite;
+    border-top: transparent;
+    border-right: transparent;
+    border-left: transparent;
+}

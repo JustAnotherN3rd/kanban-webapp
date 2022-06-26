@@ -1,3 +1,6 @@
 pip
 Flask
 requests
+cs50
+flask
+werkzeug

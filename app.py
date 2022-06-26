@@ -7,7 +7,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import login_required
+from helpers import login_required, apology
 
 
 
@@ -48,7 +48,7 @@ def login():
     if request.method == "POST":
 
         # Ensure username was submitted
-        if not request.form.get("username"):
+        if not request.form.get("name"):
             return apology("Provide Username!")
 
         # Ensure password was submitted
@@ -56,10 +56,10 @@ def login():
             return apology("Provide Password!")
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE name = ?", request.form.get("name"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
             return apology("Invlaid Password!")
 
         # Remember which user has logged in
@@ -74,5 +74,6 @@ def login():
 
 
 @app.route("/")
+@login_required
 def index():
     return render_template("index.html",task=1)
