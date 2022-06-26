@@ -23,7 +23,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-#db = SQL("sqlite:///shield.db")
+db = SQL("sqlite:///kanban.db")
 
 # set current mission to NULL
 current_mission = {}
