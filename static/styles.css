@@ -33,3 +33,7 @@ body {
 .accordion-button:not(.collapsed)::after {
     background-image: none;
 }
+
+.btn-dark {
+    background-color: black;
+}
