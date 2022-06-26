@@ -37,3 +37,8 @@ body {
 .btn-dark {
     background-color: black;
 }
+
+nav {
+    background-color: black;
+    color: antiquewhite;
+}

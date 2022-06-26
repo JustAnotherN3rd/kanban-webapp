@@ -17,21 +17,23 @@
     </head>
 
     <body>
-        <nav class="bg-dark border navbar navbar-expand-md navbar-dark">
+        <nav class="bg-dark navbar navbar-expand-md navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/"> KanBan </a>
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler collapsed btn-dark" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                     <div class="navbar-collapse collapse" id="navbar">
-                        <!--{% if session["user_id"] %} 
-                            {% block nav %} {% endblock %}
-                        {% else %} -->
+                        {% if session["user_id"] %} 
+                            <ul class="navbar-nav ms-auto mt-2">
+                                <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                            </ul>                            
+                        {% else %}
                             <ul class="navbar-nav ms-auto mt-2">
                                 <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
                             </ul>
-                        <!--{% endif %}-->
+                        {% endif %}
                     </div>
                 </nav>
             </div>
