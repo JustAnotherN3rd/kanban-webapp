@@ -112,3 +112,20 @@ def register():
 @login_required
 def index():
     return render_template("index.html",task=1)
+
+
+@app.route("/new_task", methods=["POST", "GET"])
+@login_required
+def new_task():
+    if request.method == "POST":
+        if not request.form.get("name"):
+            return apology("Provide Name for the task!")
+
+        name = request.form.get("name")
+        desc = request.form.get("desc")
+        
+        db.execute("INSERT INTO tasks(name,desc,user_id) VALUES (?,?,?)", name, desc, session["user_id"])
+
+        return redirect("/")
+    else:
+        return render_template("new_task.html")
