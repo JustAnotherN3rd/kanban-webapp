@@ -78,6 +78,7 @@ def register():
 
     if request.method == "POST":
 
+        # check for input
         if not request.form.get("name"):
             return apology("Provide Username!")
         
@@ -86,17 +87,21 @@ def register():
 
         if not request.form.get("confirmation"):
             return apology("Cofirm Password!")
-
+        
+        # set vars so it can be inserted into db
         name = request.form.get("name")
         password = request.form.get("password")
 
+        # check for confirmation match with password
         if not password == request.form.get("confirmation"):
             return apology("Confirmation of Password incorrect!")
 
+        # hash password and insert the stuff into the db->users
         hash = generate_password_hash(password)
 
         db.execute("INSERT INTO users(name,password) VALUES (?,?)", name, hash)
 
+        # go to login to start new sesssion
         return redirect("/login")
 
     else:
