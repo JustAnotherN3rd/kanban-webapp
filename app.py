@@ -111,7 +111,17 @@ def register():
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html",task=1)
+
+    # get all the tasks in the backlog
+    backlog = db.execute("SELECT * FROM tasks WHERE state = 1 AND user_id = ?", session["user_id"])
+
+    # get all tasks inprogress
+    inProg = db.execute("SELECT * FROM tasks WHERE state = 2 AND user_id = ?", session["user_id"])
+
+    # get alldone tasks
+    done = db.execute("SELECT * FROM tasks WHERE state = 3 AND user_id = ?", session["user_id"])
+
+    return render_template("index.html",backlog=backlog, inProg=inProg, done=done)
 
 
 @app.route("/new_task", methods=["POST", "GET"])
