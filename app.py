@@ -73,6 +73,36 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/register", methods=["POST","GET"])
+def register():
+
+    if request.method == "POST":
+
+        if not request.form.get("name"):
+            return apology("Provide Username!")
+        
+        if not request.form.get("password"):
+            return apology("Provide Password!")
+
+        if not request.form.get("confirmation"):
+            return apology("Cofirm Password!")
+
+        name = request.form.get("name")
+        password = request.form.get("password")
+
+        if not password == request.form.get("confirmation"):
+            return apology("Confirmation of Password incorrect!")
+
+        hash = generate_password_hash(password)
+
+        db.execute("INSERT INTO users(name,password) VALUES (?,?)", name, hash)
+
+        return redirect("/login")
+
+    else:
+        return render_template("register.html")
+
+
 @app.route("/")
 @login_required
 def index():

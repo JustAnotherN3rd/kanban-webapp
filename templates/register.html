@@ -3,8 +3,9 @@
 {% block body %}
 <div class="card text-bg-dark mb-3" style="width: 18rem;background-color:black;color:antiquewhite;">
     <div class="card-body">
-      <h5 class="card-title">Log In</h5>
-      <form action="/login" method="post">
+      <h5 class="card-title">Register</h5>
+
+      <form action="/register" method="post">
         <div>
             <input type="text" id="name" name="name" class="input-dark" placeholder="Name">
         </div>
@@ -13,12 +14,16 @@
             <input type="password" id="password" name="password" class="input-dark" placeholder="Password">
         </div>
         <p></p>
+        <div>
+            <input type="password" id="confirmation" name="confirmation" class="input-dark" placeholder="Confirm Password">
+        </div>
+        <p></p>
         <p></p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-dark"> Log In </button>
+            <button type="submit" class="btn btn-dark"> Register </button>
         </div> 
       </form>
       
     </div>
-  </div>
+</div>
 {% endblock %}
