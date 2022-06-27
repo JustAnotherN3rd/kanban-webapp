@@ -139,3 +139,39 @@ def new_task():
         return redirect("/")
     else:
         return render_template("new_task.html")
+
+
+@app.route("/start_task", methods=["POST"])
+@login_required
+def start_task():
+    # get taskId
+    id = request.form.get("start")
+
+    # change the state of the task
+    db.execute("UPDATE tasks SET state = 2 WHERE id = ?", id)
+
+    return redirect("/")
+
+
+@app.route("/finish_task", methods=["POST"])
+@login_required
+def finish_task():
+    # get task
+    id = request.form.get("finish")
+
+    # change state of the task
+    db.execute("UPDATE tasks SET state = 3 WHERE id = ?", id)
+
+    return redirect("/")
+
+
+@app.route("/delete_task", methods=["POST"])
+@login_required
+def delete_task():
+    # get task
+    id = request.form.get("delete")
+
+    # change state of the task
+    db.execute("UPDATE tasks SET state = 0 WHERE id = ?", id)
+
+    return redirect("/")
