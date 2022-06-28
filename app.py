@@ -134,14 +134,19 @@ def index():
 @login_required
 def new_task():
     if request.method == "POST":
+        # check for name
         if not request.form.get("name"):
             return apology("Provide Name for the task!")
-
+        
         name = request.form.get("name")
+        
+        # get description
         desc = request.form.get("desc")
         
+        # save task + move to backlog
         db.execute("INSERT INTO tasks(name,desc,user_id) VALUES (?,?,?)", name, desc, session["user_id"])
 
+        # reload
         return redirect("/")
     else:
         return render_template("new_task.html")
@@ -154,7 +159,7 @@ def start_task():
     id = request.form.get("start")
 
     # change the state of the task
-    db.execute("UPDATE tasks SET state = 2 WHERE id = ?", id)
+    db.execute("UPDATE tasks SET state = 2 WHERE id = ? AND user_id = ?", id, session["user_id"])
 
     return redirect("/")
 
@@ -166,7 +171,7 @@ def finish_task():
     id = request.form.get("finish")
 
     # change state of the task
-    db.execute("UPDATE tasks SET state = 3 WHERE id = ?", id)
+    db.execute("UPDATE tasks SET state = 3 WHERE id = ? AND user_id = ?", id, session["user_id"])
 
     return redirect("/")
 
@@ -178,7 +183,7 @@ def delete_task():
     id = request.form.get("delete")
 
     # change state of the task
-    db.execute("UPDATE tasks SET state = 0 WHERE id = ?", id)
+    db.execute("UPDATE tasks SET state = 0 WHERE id = ? AND user_id = ?", id, session["user_id"])
 
     return redirect("/")
 
@@ -186,15 +191,44 @@ def delete_task():
 @app.route("/profile")
 @login_required
 def profile():
+    # get user's name
     name = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["name"]
-    deleted = db.execute("SELECT * FROM tasks WHERE state = 0 AND  user_id = ?", session["user_id"])
-
-    return render_template("profile.html", deleted=deleted, name=name)
+    # load
+    return render_template("profile.html", name=name)
 
 
 @app.route("/logout", methods=["POST"])
 @login_required
 def logout():
     session.clear()
+
+    return redirect("/")
+
+
+@app.route("/trashcan", methods=["POST", "GET"])
+@login_required
+def trashcan():
+    if request.method == "POST":
+        # delete all tasks in trashcan
+        db.execute("DELETE FROM tasks WHERE state = 0 AND user_id = ?", session["user_id"])
+
+        # reload
+        return redirect("/trashcan")
+    
+    else:
+        # get all tasks with state deleted
+        trashcan = db.execute("SELECT * FROM tasks WHERE state = 0 AND user_id = ?", session["user_id"])
+
+        return render_template("trashcan.html", trashcan=trashcan)
+
+
+@app.route("/recycle_task", methods=["POST"])
+@login_required
+def recycle_task():
+    # get id
+    id = request.form.get("start")
+
+    # chnage state to backlog
+    db.execute("UPDATE tasks SET state = 1 WHERE id = ? AND user_id = ?", id, session["user_id"])
 
     return redirect("/")

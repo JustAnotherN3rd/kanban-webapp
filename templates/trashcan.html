@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block body %} 
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-md-8">
+            <div class="card text-bg-dark" style="background-color:black;color:antiquewhite;">
+                <div class="card-body">
+                  <h5 class="card-title">Deleted Tasks</h5>
+                  <p></p>
+                  <div class="accordion accordion-flush" id="accordionFlushExample1">
+
+                    {% for task in trashcan %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="{{ task.name }}-heading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ task.name }}-collapse" aria-expanded="false" aria-controls="{{ task.name }}-collapse">
+                            {{ task.name }}
+                            </button>
+                        </h2>
+                        <div id="{{ task.name }}-collapse" class="accordion-collapse collapse" aria-labelledby="{{ task.name }}-heading" data-bs-parent="#accordionFlushExample1">
+                            <div class="accordion-body">{{ task.desc }}</div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <form method="post" action="/recycle_task">
+                                    <input type="hidden" name="start" id="start" value="{{ task.id }}">
+                                    <button type="submit" class="btn btn-dark">Move to Backlog</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                  <p></p>
+                  <form action="/trashcan" method="post">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-dark"> Empty Trashcan </button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
