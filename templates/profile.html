@@ -12,9 +12,13 @@
                   <p></p>
                   <p>Name:  {{ name }}</p>
                   <p></p>
-                  <div class="justify-content-end">
-                    <a class="btn btn-dark" role="button" href="/trashcan"> Trashcan </a>
-                  </div>
+                  <h6>{{ name }}'s Stats</h6>
+                  <p></p>
+                  <p>Unfinished Tasks:  {{ unfinished }}</p>
+                  <p></p>
+                  <p>Finished Tasks:   {{ finished }}</p>
+                  <p></p>
+                  <p></p>
                   <form action="/logout" method="post">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-dark"> Log Out  </button>

@@ -25,9 +25,6 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///kanban.db")
 
-# set current mission to NULL
-current_mission = {}
-
 
 @app.after_request
 def after_request(response):
@@ -193,8 +190,14 @@ def delete_task():
 def profile():
     # get user's name
     name = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["name"]
+
+    # stats
+    unfinished = db.execute("SELECT * FROM tasks WHERE state = 1 OR state = 2 AND user_id = ?", session["user_id"]).len
+
+    finished = db.execute("SELECT * FORM tasks WHERE state = 3 OR state = 0 AND user_id =?", session["user_id"]).len
+
     # load
-    return render_template("profile.html", name=name)
+    return render_template("profile.html", name=name, finished=finished, unfinished=unfinished)
 
 
 @app.route("/logout", methods=["POST"])
