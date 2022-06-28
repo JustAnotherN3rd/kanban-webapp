@@ -181,3 +181,11 @@ def delete_task():
     db.execute("UPDATE tasks SET state = 0 WHERE id = ?", id)
 
     return redirect("/")
+
+
+@app.route("/profile")
+@login_required
+def profile():
+    deleted = db.execute("SELECT * FROM tasks WHERE state = 0 AND  user_id = ?", session["user_id"])
+
+    return render_template("profile.html", deleted=deleted)
