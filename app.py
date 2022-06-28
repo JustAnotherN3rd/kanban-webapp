@@ -186,6 +186,15 @@ def delete_task():
 @app.route("/profile")
 @login_required
 def profile():
+    name = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["name"]
     deleted = db.execute("SELECT * FROM tasks WHERE state = 0 AND  user_id = ?", session["user_id"])
 
-    return render_template("profile.html", deleted=deleted)
+    return render_template("profile.html", deleted=deleted, name=name)
+
+
+@app.route("/logout", methods=["POST"])
+@login_required
+def logout():
+    session.clear()
+
+    return redirect("/")

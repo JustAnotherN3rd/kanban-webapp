@@ -1,5 +1,29 @@
 {% extends "layout.html" %} 
 
 {% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-md-8">
+            <div class="card text-bg-dark" style="background-color:black;color:antiquewhite;">
+                <div class="card-body">
+                  <h5 class="card-title">Profile</h5>
+                  <p></p>
+                  <p>Name:  {{ name }}</p>
+                  <p></p>
+                  <form action="/logout" method="post">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-dark"> Log Out  </button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+        </div>
+    </div>
+</div>
 
 {% endblock %}
