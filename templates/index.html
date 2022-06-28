@@ -19,6 +19,10 @@
                             <div id="{{ task.name }}-collapse" class="accordion-collapse collapse" aria-labelledby="{{ task.name }}-heading" data-bs-parent="#accordionFlushExample1">
                                 <div class="accordion-body">{{ task.desc }}</div>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <form method="post" action="/task">
+                                        <input type="hidden" id="id" name="id" value="{{ task.id }}">
+                                        <button type="submit" class="btn btn-dark">Edit</button>
+                                    </form>
                                     <form method="post" action="/start_task">
                                         <input type="hidden" name="start" id="start" value="{{ task.id }}">
                                         <button type="submit" class="btn btn-dark">Start</button>
@@ -49,6 +53,10 @@
                             <div id="{{ task.name }}-collapse" class="accordion-collapse collapse" aria-labelledby="{{ task.name }}-heading" data-bs-parent="#accordionFlushExample2">
                                 <div class="accordion-body">{{ task.desc }}</div>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <form method="post" action="/task">
+                                        <input type="hidden" id="id" name="id" value="{{ task.id }}">
+                                        <button type="submit" class="btn btn-dark">Edit</button>
+                                    </form>
                                     <form method="post" action="/finish_task">
                                         <input type="hidden" name="finish" id="finish" value="{{ task.id }}">
                                         <button type="submit" class="btn btn-dark">Finish</button>
@@ -75,6 +83,10 @@
                             <div id="{{ task.name }}-collapse" class="accordion-collapse collapse" aria-labelledby="{{ task.name }}-heading" data-bs-parent="#accordionFlushExample3">
                                 <div class="accordion-body">{{ task.desc }}</div>
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <form method="post" action="/task">
+                                        <input type="hidden" id="id" name="id" value="{{ task.id }}">
+                                        <button type="submit" class="btn btn-dark">Edit</button>
+                                    </form>
                                     <form method="post" action="/delete_task">
                                         <input type="hidden" name="delete" id="delete" value="{{ task.id }}">
                                         <button type="submit" class="btn btn-dark">Delete</button>

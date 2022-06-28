@@ -112,7 +112,7 @@ def register():
 
 
 @app.route("/")
-@login_required
+@login_required # tag defined in helpers.pys
 def index():
 
     # get all the tasks in the backlog
@@ -192,9 +192,9 @@ def profile():
     name = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["name"]
 
     # stats
-    unfinished = db.execute("SELECT * FROM tasks WHERE state = 1 OR state = 2 AND user_id = ?", session["user_id"]).len
+    unfinished = len(db.execute("SELECT * FROM tasks WHERE state = 1 OR state = 2 AND user_id = ?", session["user_id"]))
 
-    finished = db.execute("SELECT * FORM tasks WHERE state = 3 OR state = 0 AND user_id =?", session["user_id"]).len
+    finished = len(db.execute("SELECT * FROM tasks WHERE state = 3 OR state = 0 AND user_id =?", session["user_id"]))
 
     # load
     return render_template("profile.html", name=name, finished=finished, unfinished=unfinished)
@@ -235,3 +235,25 @@ def recycle_task():
     db.execute("UPDATE tasks SET state = 1 WHERE id = ? AND user_id = ?", id, session["user_id"])
 
     return redirect("/")
+
+
+@app.route("/edit_task", methods=["POST"])
+@login_required
+def edit_task():
+    id = request.form.get("id")
+    name = request.form.get("name")
+    desc = request.form.get("desc")
+
+    db.execute("UPDATE tasks SET name = ?, desc = ? WHERE id = ?", name, desc, id)
+
+    return redirect("/")
+
+
+@app.route("/task", methods=["POST"])
+@login_required
+def task():
+    id = request.form.get("id")
+
+    task = db.execute("SELECT * FROM tasks WHERE id = ?", id)[0]
+
+    return render_template("edit_task.html", task=task)

@@ -8,19 +8,20 @@
     <div class="col-8">
       <div class="card text-bg-dark mb-3" style="width: 18rem;background-color:black;color:antiquewhite;">
           <div class="card-body">
-            <h5 class="card-title">New Task</h5>
-            <form action="/new_task" method="post">
+            <h5 class="card-title">Edit Task</h5>
+            <form action="/edit_task" method="post">
               <div>
-                  <input type="text" id="name" name="name" class="input-dark" placeholder="Name">
+                  <input type="text" id="name" name="name" class="input-dark" value="{{ task.name }}">
               </div>
               <p></p>
               <div>
-                  <input type="text" id="desc" name="desc" class="input-dark" placeholder="Description" rows="5">
+                  <input type="text" id="desc" name="desc" class="input-dark" value="{{ task.desc }}" rows="5">
               </div>
               <p></p>
+              <input type="hidden" id="id" name="id" value="{{ task.id }}">
               <p></p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button type="submit" class="btn btn-dark"> Create Task </button>
+                  <button type="submit" class="btn btn-dark"> Save Task </button>
               </div> 
             </form>
             
