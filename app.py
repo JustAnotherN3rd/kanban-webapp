@@ -81,6 +81,12 @@ def register():
         # check for input
         if not request.form.get("name"):
             return apology("Provide Username!")
+
+        rows = db.execute("SELECT * FROM users WHERE name = ?", name)
+
+        # check if name is already used or not so alll names are unique
+        if rows[0] != None:
+            return apology("Name already taken!")
         
         if not request.form.get("password"):
             return apology("Provide Password!")
