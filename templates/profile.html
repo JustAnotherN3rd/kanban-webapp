@@ -12,12 +12,17 @@
                   <p></p>
                   <p>Name:  {{ name }}</p>
                   <p></p>
+                  <h5></h5>
                   <h5 class="card-title">{{ name }}'s Stats</h5>
                   <p></p>
                   <p>Unfinished Tasks:  {{ unfinished }}</p>
                   <p></p>
                   <p>Finished Tasks:    {{ finished }}</p>
                   <p></p>
+                  <p></p>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/change_password" role="button" class="btn btn-dark"> Change Password </a>
+                  </div>
                   <p></p>
                   <form action="/logout" method="post">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

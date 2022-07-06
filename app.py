@@ -81,7 +81,7 @@ def register():
 
         rows = db.execute("SELECT * FROM users WHERE name = ?", name)
 
-        # check if name is already used or not so alll names are unique
+        # check if name is already used or not so all names are unique
         if rows[0] != None:
             return apology("Name already taken!")
         
@@ -262,3 +262,43 @@ def task():
     task = db.execute("SELECT * FROM tasks WHERE id = ?", id)[0]
 
     return render_template("edit_task.html", task=task)
+
+
+@app.route("/change_password", methods=["POST", "GET"])
+@login_required
+def change_password():
+    if request.method == "POST":
+        if not request.form.get("oldPass"):
+            return apology("Enter old Password!")
+        
+        oldPass = request.form.get("oldPass")
+
+        # get all data for logged in user
+        user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]
+
+        # check password
+        if not check_password_hash(user["password"], oldPass):
+            return apology("Wrong Password!")
+
+        # get new password
+        if not request.form.get("newPass"):
+            return apology("Enter new Password!")
+        
+        newPass = request.form.get("newPass")
+
+        # get pass confirmation
+        if not request.form.get("confirm"):
+            return apology("Confirm new password!")
+
+        if not newPass == request.form.get("confirm"):
+            return apology("Confirm new password!")
+
+        hash = generate_password_hash(newPass)
+
+        # update db with new password hash
+        db.execute("UPDATE users SET password = ? WHERE id = ?", hash, session["user_id"])
+
+        return redirect("/profile")
+
+    else:
+        return render_template("change_password.html")
