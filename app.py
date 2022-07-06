@@ -203,6 +203,7 @@ def profile():
 @app.route("/logout", methods=["POST"])
 @login_required
 def logout():
+    # clear session
     session.clear()
 
     return redirect("/")
@@ -240,10 +241,12 @@ def recycle_task():
 @app.route("/edit_task", methods=["POST"])
 @login_required
 def edit_task():
+    # get edited stuff
     id = request.form.get("id")
     name = request.form.get("name")
     desc = request.form.get("desc")
 
+    # insert edited stuff into db
     db.execute("UPDATE tasks SET name = ?, desc = ? WHERE id = ?", name, desc, id)
 
     return redirect("/")
@@ -252,8 +255,10 @@ def edit_task():
 @app.route("/task", methods=["POST"])
 @login_required
 def task():
+    # get id for the task
     id = request.form.get("id")
 
+    # get info on the task
     task = db.execute("SELECT * FROM tasks WHERE id = ?", id)[0]
 
     return render_template("edit_task.html", task=task)
